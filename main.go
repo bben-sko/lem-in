@@ -71,16 +71,15 @@ func Handpath(ants int, table []string, relation map[string][]string, star strin
 		for star != end {
 
 			indix := relation[star][j]
-			if Is(indix, result) || Check(indix, path) {
+			if Is(indix, result) || Check(indix, path,end) {
 				j++
-
 				if len(relation[star]) <= j {
 					done = true
 					break
 				}
 			} else if Find_end(relation[star], end) {
+				//fmt.Println(indix)
 				result = append(result, end)
-				star = indix
 				break
 			} else {
 				result = append(result, indix)
@@ -110,21 +109,22 @@ func Is(i string, find []string) bool {
 	}
 	return false
 }
-func Check(i string, path [][]string) bool {
+func Check(i string, path [][]string, end string) bool {
 	if len(path) == 0 {
 		return false
 	}
+	
 	for k := 0; k < len(path); k++ {
-	if len(path[k][1:len(path[k])-1]) == 0 {
-		return true
-	}
-		fmt.Println(path[k][1:len(path[k])])
 		for l := 1; l < len(path[k])-1; l++ {
 			if path[k][l] == i  {
 				return true
 			}
 		}
 	}
+	if i == end {
+		return false
+	}
+
 	return false
 }
 func Find_end(tbl []string, end string) bool {
